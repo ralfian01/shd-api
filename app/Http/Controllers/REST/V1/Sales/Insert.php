@@ -60,10 +60,13 @@ class Insert extends BaseREST
      */
     private function nextValidation()
     {
-        // Contoh validasi bisnis tambahan (saat ini dikomentari):
-        // if (!DBRepo::isVariantInStock($this->payload['variant_id'], $this->payload['quantity'])) {
-        //     return $this->error(409, ['reason' => 'Insufficient stock for the selected variant.']);
-        // }
+        if (isset($this->payload['serial_numbers'])) {
+            if (count($this->payload['serial_numbers']) != $this->payload['quantity']) {
+                return $this->error(422, [
+                    'reason' => 'The number of provided serial numbers must match the quantity purchased.'
+                ]);
+            }
+        }
 
         return $this->insert();
     }

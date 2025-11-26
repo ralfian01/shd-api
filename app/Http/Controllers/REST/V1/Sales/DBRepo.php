@@ -112,26 +112,32 @@ class DBRepo extends BaseDBRepo
     {
         try {
             return DB::transaction(function () {
-                // 1. Ambil data produk terkait untuk mendapatkan durasi garansi
-                $variant = Variant::with('product')->find($this->payload['variant_id']);
+                // ... (Logika mengambil variant, durasi, dan menghitung expires_at tetap sama)
+                $variant = \App\Models\Variant::with('product')->find($this->payload['variant_id']);
                 $durationMonths = $variant->product->warranty_duration_months;
-
-                // 2. Parse tanggal pembelian menggunakan Carbon
-                $purchaseDate = Carbon::parse($this->payload['purchase_date']);
-
-                // 3. Hitung tanggal kedaluwarsa garansi
+                $purchaseDate = \Carbon\Carbon::parse($this->payload['purchase_date']);
                 $expiresAt = $purchaseDate->copy()->addMonths($durationMonths);
 
-                // 4. Buat record penjualan
-                $sale = Sale::create(Arr::except($this->payload, ['serial_numbers']));
+                $sale = \App\Models\Sale::create(Arr::except($this->payload, ['serial_numbers']));
 
-                // 5. Lakukan loop sebanyak kuantitas untuk membuat garansi
+                // --- PERUBAHAN LOGIKA UTAMA: PENGECEKAN SERIAL NUMBER ---
+                $manualSerialNumbersProvided = isset($this->payload['serial_numbers']) && !empty($this->payload['serial_numbers']);
+
                 for ($i = 0; $i < $this->payload['quantity']; $i++) {
-                    // ... (logika generate nomor kartu dan serial number tetap sama)
-                    $warrantyCardNumber = 'GAR-' . date('Ymd') . '-' . Str::upper(Str::random(6)) . '-' . ($i + 1);
-                    $serialNumber = $this->payload['serial_numbers'][$i] ?? null;
+                    $serialNumber = null;
 
-                    // 6. Buat record garansi dengan menyertakan 'expires_at'
+                    if ($manualSerialNumbersProvided) {
+                        // Skenario 1: Ambil serial number dari payload manual
+                        $serialNumber = $this->payload['serial_numbers'][$i];
+                    } else {
+                        // Skenario 2: Generate serial number secara otomatis
+                        // Format: SN-[10 KARAKTER ACAK]-[TIMESTAMP]
+                        $serialNumber = 'SN-' . strtoupper(Str::random(10)) . '-' . time() . $i;
+                    }
+
+                    $warrantyCardNumber = 'GAR-' . date('Ymd') . '-' . Str::upper(Str::random(6)) . '-' . ($i + 1);
+
+                    // Buat record garansi dengan serial number yang sudah ditentukan
                     $sale->warranties()->create([
                         'serial_number' => $serialNumber,
                         'card_number' => $warrantyCardNumber,
