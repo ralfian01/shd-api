@@ -72,10 +72,22 @@ Route::get('setup-application/a1b2c3d4e5f6g7h8i9j0', function () {
     }
 });
 
+Route::get('setup-application/q3rn4vt3w923r2u', function () {
+    // Cek apakah ini di lingkungan produksi untuk keamanan tambahan
+    if (app()->environment('production')) {
+        // Jalankan perintah migrate
+        Artisan::call('migrate');
+
+        return 'Application setup complete: Migration success.';
+    } else {
+        return 'This endpoint is only for production environment.';
+    }
+});
+
 Route::get('setup-application/q23p09guj3v03u983', function () {
     // Cek apakah ini di lingkungan produksi untuk keamanan tambahan
     if (app()->environment('production')) {
-        // Jalankan perintah storage:link
+        // Jalankan perintah route:cache
         Artisan::call('route:cache');
 
         return 'Application setup complete: Routes cached.';
