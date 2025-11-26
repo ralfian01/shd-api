@@ -143,7 +143,7 @@ class DBRepo extends BaseDBRepo
 
                 return (object) [
                     'status' => true,
-                    'data' => $sale->id
+                    'data' => ['id' => $sale->id]
                 ];
             });
         } catch (Exception $e) {
