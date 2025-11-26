@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\REST\V1\Warranties;
+namespace App\Http\Controllers\REST\V1\Manage\Warranties;
 
 use App\Http\Libraries\BaseDBRepo;
 use App\Models\Warranty;

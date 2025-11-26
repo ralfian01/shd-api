@@ -24,12 +24,6 @@ Route::prefix('warranty-check')->group(function () {
     Route::get('{id}', [RESTV1\WarrantyCheck\Get::class, 'index']);
 });
 
-Route::prefix('warranties')->group(function () {
-    Route::get('/', [RESTV1\Warranties\Get::class, 'index']);
-    Route::get('{id}', [RESTV1\Warranties\Get::class, 'index']);
-    Route::put('{id}', [RESTV1\Warranties\Update::class, 'index']);
-});
-
 ## Manage
 Route::prefix('manage')->group(function () {
 
@@ -55,6 +49,12 @@ Route::prefix('manage')->group(function () {
         Route::post('/', [RESTV1\Manage\Products\Insert::class, 'index']);
         Route::put('{product_id}', [RESTV1\Manage\Products\Update::class, 'index']);
         Route::delete('{product_id}', [RESTV1\Manage\Products\Delete::class, 'index']);
+    });
+
+    Route::prefix('warranties')->group(function () {
+        Route::get('/', [RESTV1\Manage\Warranties\Get::class, 'index']);
+        Route::get('{id}', [RESTV1\Manage\Warranties\Get::class, 'index']);
+        Route::put('{id}', [RESTV1\Manage\Warranties\Update::class, 'index']);
     });
 });
 

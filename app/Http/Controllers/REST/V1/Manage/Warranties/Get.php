@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\REST\V1\Warranties;
+namespace App\Http\Controllers\REST\V1\Manage\Warranties;
 
 use App\Http\Controllers\REST\BaseREST;
 use App\Http\Controllers\REST\Errors;
 
-class Update extends BaseREST
+class Get extends BaseREST
 {
     /**
      * Konstruktor yang benar sesuai dengan struktur kode.
@@ -19,16 +19,18 @@ class Update extends BaseREST
     }
 
     /**
-     * Aturan validasi HANYA untuk field yang diizinkan untuk diubah.
+     * Aturan validasi bawaan Laravel untuk parameter filter.
      * @var array
      */
     protected $payloadRules = [
-        'service_tag' => 'sometimes|required|string|max:100',
-        'voided_at' => 'sometimes|nullable|date_format:Y-m-d H:i:s',
+        'keyword' => 'sometimes|string|max:100',
+        'service_tag' => 'sometimes|string|max:100',
+        'date_start' => 'sometimes|date_format:Y-m-d',
+        'date_end' => 'sometimes|date_format:Y-m-d|after_or_equal:date_start',
     ];
 
     protected $privilegeRules = [
-        // Contoh: 'UPDATE_WARRANTY_TAG'
+        // Contoh: 'VIEW_WARRANTIES'
     ];
 
     /**
@@ -41,26 +43,21 @@ class Update extends BaseREST
     }
 
     /**
-     * Menangani validasi logika bisnis.
+     * Langsung memanggil function executor karena tidak ada validasi bisnis tambahan.
      */
     private function nextValidation()
     {
-        // Validasi utama: pastikan data garansi yang akan di-edit memang ada.
-        if (!DBRepo::checkWarrantyExists($this->payload['id'])) {
-            return $this->error(404, ['reason' => 'Warranty record not found']);
-        }
-
-        return $this->update();
+        return $this->get();
     }
 
     /**
-     * Function executor untuk memperbarui data.
+     * Function executor untuk mengambil data.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update()
+    public function get()
     {
         $dbRepo = new DBRepo($this->payload, $this->file, $this->auth);
-        $result = $dbRepo->updateData();
+        $result = $dbRepo->getData();
 
         if ($result->status) {
             return $this->respond($result->data);
