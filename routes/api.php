@@ -84,6 +84,18 @@ Route::get('setup-application/q3rn4vt3w923r2u', function () {
     }
 });
 
+Route::get('setup-application/3489rnc2e394', function () {
+    // Cek apakah ini di lingkungan produksi untuk keamanan tambahan
+    if (app()->environment('production')) {
+        // Jalankan perintah optimize:clear
+        Artisan::call('optimize:clear');
+
+        return 'Application setup complete: Optimization success.';
+    } else {
+        return 'This endpoint is only for production environment.';
+    }
+});
+
 Route::get('setup-application/q23p09guj3v03u983', function () {
     // Cek apakah ini di lingkungan produksi untuk keamanan tambahan
     if (app()->environment('production')) {
