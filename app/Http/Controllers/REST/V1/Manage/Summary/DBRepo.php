@@ -43,7 +43,7 @@ class DBRepo extends BaseDBRepo
             $totalSkuCount = Variant::count();
 
             // 4. Mengambil 5 Penjualan Terbaru
-            $recentSales = Sale::with(['variant.product', 'warranty'])
+            $recentSales = Sale::query()
                 ->latest('purchase_date')
                 ->limit(5)
                 ->get();
