@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
 
 class RootAdminSeed extends Seeder
@@ -15,14 +16,13 @@ class RootAdminSeed extends Seeder
     public function run(): void
     {
         $data = [
-            'ta_uuid' => Uuid::uuid4()->toString(),
-            'ta_username' => env('ROOT_ADMIN_USERNAME'),
-            // 'ta_password' => hash('sha256', env('ROOT_ADMIN_PASSWORD')),
-            'ta_password' => env('ROOT_ADMIN_PASSWORD'),
-            'tr_id' => 1,
-            'ta_deletable' => false,
-            'ta_statusActive' => true,
-            'ta_statusDelete' => false,
+            'uuid' => Uuid::uuid4()->toString(),
+            'username' => env('ROOT_ADMIN_USERNAME'),
+            'password' => Hash::make(env('ROOT_ADMIN_PASSWORD')),
+            'role_id' => 1,
+            'deletable' => false,
+            'status_active' => true,
+            'status_delete' => false,
         ];
 
         DB::table('account')->insert($data);

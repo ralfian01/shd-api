@@ -13,7 +13,7 @@ class RunAllSeeder extends Seeder
     public function run(): void
     {
         $this->call(PrivilegeSeed::class);
-        $this->call(RoleSeed::class);
+        $this->call(RoleAndPrivilegeSeeder::class);
         $this->call(RootAdminSeed::class);
     }
 }

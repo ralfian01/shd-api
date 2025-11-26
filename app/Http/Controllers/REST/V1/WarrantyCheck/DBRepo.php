@@ -37,7 +37,9 @@ class DBRepo extends BaseDBRepo
             $warranty = Warranty::query()
                 // Eager load semua relasi yang diperlukan untuk menampilkan data lengkap
                 // Warranty -> Sale -> Variant -> Product
-                ->with(['sale.variant.product'])
+                ->with([
+                    'sale.variant.product.images',
+                ])
                 // Kondisi 1: Cari di kolom 'card_number' di tabel 'warranties'
                 ->where('card_number', $code)
                 // Kondisi 2 (ATAU): Cari di kolom 'serial_number' di tabel relasi 'sale'
