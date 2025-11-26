@@ -50,7 +50,7 @@ class DBRepo extends BaseDBRepo
             $query = Sale::query()
                 // Eager load relasi untuk menghindari N+1 problem dan memperkaya data.
                 // Kita ambil data garansi, varian, dan juga produk dari varian tersebut.
-                ->with(['warranty', 'variant.product']);
+                ->with(['warranties', 'variant.product']);
 
             // Kasus 1: Mengambil satu data penjualan detail berdasarkan ID
             if (isset($this->payload['id'])) {
