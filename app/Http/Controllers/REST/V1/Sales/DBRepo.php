@@ -146,7 +146,11 @@ class DBRepo extends BaseDBRepo
                     'data' => $sale->id
                 ];
             });
-        } catch (Exception $e) { /* ... */
+        } catch (Exception $e) {
+            return (object) [
+                'status' => false,
+                'message' => $e->getMessage()
+            ];
         }
     }
 
