@@ -100,7 +100,7 @@ class Update extends BaseREST
         $result = $dbRepo->updateData();
 
         if ($result->status) {
-            return $this->respond($result->data);
+            return $this->respond(200, $result->data);
         }
 
         return $this->error(500, ['reason' => $result->message]);

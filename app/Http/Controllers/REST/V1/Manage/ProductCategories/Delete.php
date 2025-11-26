@@ -71,7 +71,7 @@ class Delete extends BaseREST
         $result = $dbRepo->deleteData();
 
         if ($result->status) {
-            return $this->respond(['message' => 'Category successfully deleted.']);
+            return $this->respond(200, ['message' => 'Category successfully deleted.']);
         }
 
         return $this->error(500, ['reason' => $result->message]);
