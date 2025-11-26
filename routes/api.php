@@ -49,8 +49,8 @@ Route::prefix('manage')->group(function () {
         Route::get('/', [RESTV1\Manage\Products\Get::class, 'index']);
         Route::get('{id}', [RESTV1\Manage\Products\Get::class, 'index']);
         Route::post('/', [RESTV1\Manage\Products\Insert::class, 'index']);
-        Route::put('{product_id}', [RESTV1\Manage\Products\Update::class, 'index']);
-        Route::delete('{product_id}', [RESTV1\Manage\Products\Delete::class, 'index']);
+        Route::put('{id}', [RESTV1\Manage\Products\Update::class, 'index']);
+        Route::delete('{id}', [RESTV1\Manage\Products\Delete::class, 'index']);
     });
 
     Route::prefix('warranties')->group(function () {

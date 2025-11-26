@@ -16,7 +16,9 @@ class Delete extends BaseREST
     }
 
     // Tidak perlu payload rules, karena ID didapat dari URL
-    protected $payloadRules = [];
+    protected $payloadRules = [
+        'id' => 'required'
+    ];
 
     protected function mainActivity()
     {
