@@ -5,9 +5,13 @@ namespace App\Http\Controllers\REST\V1\Manage\Products;
 use App\Http\Libraries\BaseDBRepo;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductImage;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 
 class DBRepo extends BaseDBRepo
@@ -30,6 +34,14 @@ class DBRepo extends BaseDBRepo
     public static function checkCategoryIdExists($id): bool
     {
         return ProductCategory::where('id', $id)->exists();
+    }
+
+    public static function isSkuAvailable(string $sku, int $productIdToIgnore): bool
+    {
+        return !DB::table('variants')
+            ->where('sku', $sku)
+            ->where('product_id', '!=', $productIdToIgnore)
+            ->exists();
     }
 
     /**
@@ -90,7 +102,7 @@ class DBRepo extends BaseDBRepo
     {
         try {
             // Menggunakan transaction untuk memastikan semua data berhasil dibuat
-            $productData = DB::transaction(function () {
+            return DB::transaction(function () {
                 // 1. Buat produk utama
                 $product = Product::create([
                     'name' => $this->payload['name'],
@@ -113,8 +125,8 @@ class DBRepo extends BaseDBRepo
                     $coverIndex = $this->payload['cover_image_index'] ?? 0;
 
                     foreach ($this->file['images'] as $index => $imageFile) {
-                        // Simpan file ke 'storage/app/public/products' dan dapatkan path-nya
-                        $path = $imageFile->store('products', 'public');
+                        // Ganti panggilan ->store() dengan helper method manual kita
+                        $path = $this->handleFileUpload($imageFile, 'products');
 
                         $product->images()->create([
                             'path' => $path,
@@ -123,14 +135,11 @@ class DBRepo extends BaseDBRepo
                     }
                 }
 
-                // Muat ulang relasi varian setelah dibuat
-                return $product->load('variants');
+                return (object) [
+                    'status' => true,
+                    'data' => ['id' => $product->id]
+                ];
             });
-
-            return (object) [
-                'status' => true,
-                'data' => $productData->toArray(),
-            ];
         } catch (Exception $e) {
             return (object) ['status' => false, 'message' => $e->getMessage()];
         }
@@ -143,7 +152,7 @@ class DBRepo extends BaseDBRepo
     public function updateData()
     {
         try {
-            $productData = DB::transaction(function () {
+            return DB::transaction(function () {
                 $product = Product::find($this->payload['id']);
 
                 // 1. Update data produk utama jika ada
@@ -163,13 +172,19 @@ class DBRepo extends BaseDBRepo
                     }
                 }
 
-                return $product->load('variants');
-            });
+                if (isset($this->file['new_images'])) {
+                    foreach ($this->file['new_images'] as $imageFile) {
+                        // Ganti panggilan ->store() dengan helper method manual kita
+                        $path = $this->handleFileUpload($imageFile, 'products');
+                        $product->images()->create(['path' => $path]);
+                    }
+                }
 
-            return (object) [
-                'status' => true,
-                'data' => $productData->toArray(),
-            ];
+                return (object) [
+                    'status' => true,
+                    'data' => ['id' => $product->id]
+                ];
+            });
         } catch (Exception $e) {
             return (object) ['status' => false, 'message' => $e->getMessage()];
         }
@@ -189,5 +204,33 @@ class DBRepo extends BaseDBRepo
         } catch (Exception $e) {
             return (object) ['status' => false, 'message' => $e->getMessage()];
         }
+    }
+
+    /**
+     * --- HELPER METHOD BARU ---
+     * Method ini secara manual menangani upload file dari objek Symfony UploadedFile.
+     * Ini adalah pengganti dari method ->store() milik Laravel.
+     *
+     * @param UploadedFile $file Objek file dari Symfony.
+     * @param string $directory Sub-direktori di dalam 'storage/app/public'.
+     * @return string Path relatif dari file yang disimpan untuk database.
+     */
+    private function handleFileUpload(UploadedFile $file, string $directory): string
+    {
+        // 1. Buat nama file yang unik untuk menghindari konflik.
+        $extension = $file->getClientOriginalExtension();
+        $newFilename = uniqid() . '_' . time() . '.' . $extension;
+
+        // 2. Tentukan path tujuan absolut di server.
+        // storage_path() adalah helper Laravel untuk mendapatkan path ke direktori storage.
+        $destinationPath = storage_path('app/public/' . $directory);
+
+        // 3. Pindahkan file dari lokasi temporary ke lokasi permanen.
+        // Ini adalah method inti dari objek Symfony UploadedFile.
+        $file->move($destinationPath, $newFilename);
+
+        // 4. Kembalikan path relatif (tanpa 'storage/app/public') untuk disimpan di database.
+        // Ini adalah format yang sama yang dihasilkan oleh method ->store().
+        return $directory . '/' . $newFilename;
     }
 }

@@ -7,9 +7,12 @@ use App\Http\Controllers\REST\Errors;
 
 class Delete extends BaseREST
 {
-    public function __construct(array $payload = [], array $file = [], array $auth = [])
+    public function __construct(?array $p = [], ?array $f = [], ?array $a = [])
     {
-        parent::__construct($payload, $file, $auth);
+        $this->payload = $p;
+        $this->file = $f;
+        $this->auth = $a;
+        return $this;
     }
 
     // Tidak perlu payload rules, karena ID didapat dari URL
@@ -40,7 +43,7 @@ class Delete extends BaseREST
         $result = $dbRepo->deleteData();
 
         if ($result->status) {
-            return $this->respond(['message' => 'Product successfully deleted'], 200);
+            return $this->respond(200, ['message' => 'Product successfully deleted']);
         }
 
         return $this->error(500, ['reason' => $result->message]);

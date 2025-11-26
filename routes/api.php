@@ -38,6 +38,14 @@ Route::prefix('manage')->group(function () {
         Route::put('{product_id}', [RESTV1\Manage\Products\Update::class, 'index']);
         Route::delete('{product_id}', [RESTV1\Manage\Products\Delete::class, 'index']);
     });
+
+    Route::prefix('sales')->group(function () {
+        Route::get('/', [RESTV1\Manage\Sales\Get::class, 'index']);
+        Route::get('{id}', [RESTV1\Manage\Sales\Get::class, 'index']);
+        Route::post('/', [RESTV1\Manage\Sales\Insert::class, 'index']);
+        Route::put('{id}', [RESTV1\Manage\Sales\Update::class, 'index']);
+        Route::delete('{id}', [RESTV1\Manage\Sales\Delete::class, 'index']);
+    });
 });
 
 
