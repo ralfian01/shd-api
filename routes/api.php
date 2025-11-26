@@ -12,6 +12,24 @@ Route::prefix('auth')->group(function () {
     Route::post('account', [RESTV1\Auth\Account::class, 'index']);
 });
 
+Route::prefix('sales')->group(function () {
+    Route::get('/', [RESTV1\Sales\Get::class, 'index']);
+    Route::get('{id}', [RESTV1\Sales\Get::class, 'index']);
+    Route::post('/', [RESTV1\Sales\Insert::class, 'index']);
+    Route::put('{id}', [RESTV1\Sales\Update::class, 'index']);
+});
+
+Route::prefix('warranty-check')->group(function () {
+    Route::get('/', [RESTV1\WarrantyCheck\Get::class, 'index']);
+    Route::get('{id}', [RESTV1\WarrantyCheck\Get::class, 'index']);
+});
+
+Route::prefix('warranties')->group(function () {
+    Route::get('/', [RESTV1\Warranties\Get::class, 'index']);
+    Route::get('{id}', [RESTV1\Warranties\Get::class, 'index']);
+    Route::put('{id}', [RESTV1\Warranties\Update::class, 'index']);
+});
+
 ## Manage
 Route::prefix('manage')->group(function () {
 
@@ -37,14 +55,6 @@ Route::prefix('manage')->group(function () {
         Route::post('/', [RESTV1\Manage\Products\Insert::class, 'index']);
         Route::put('{product_id}', [RESTV1\Manage\Products\Update::class, 'index']);
         Route::delete('{product_id}', [RESTV1\Manage\Products\Delete::class, 'index']);
-    });
-
-    Route::prefix('sales')->group(function () {
-        Route::get('/', [RESTV1\Manage\Sales\Get::class, 'index']);
-        Route::get('{id}', [RESTV1\Manage\Sales\Get::class, 'index']);
-        Route::post('/', [RESTV1\Manage\Sales\Insert::class, 'index']);
-        Route::put('{id}', [RESTV1\Manage\Sales\Update::class, 'index']);
-        Route::delete('{id}', [RESTV1\Manage\Sales\Delete::class, 'index']);
     });
 });
 
