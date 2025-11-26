@@ -60,7 +60,7 @@ class Get extends BaseREST
         $result = $dbRepo->getData();
 
         if ($result->status) {
-            return $this->respond($result->data);
+            return $this->respond(200, $result->data);
         }
 
         return $this->error(500, ['reason' => $result->message]);
