@@ -10,85 +10,110 @@ use Illuminate\Support\Facades\DB;
 
 class DBRepo extends BaseDBRepo
 {
+    public function __construct(array $payload = [], array $file = [], array $auth = [])
+    {
+        parent::__construct($payload, $file, $auth);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | TOOLS - Static validation methods
+    |--------------------------------------------------------------------------
+    */
+    public static function checkCategoryExists($id): bool
+    {
+        return ProductCategory::where('id', $id)->exists();
+    }
+
+    public static function checkHasProducts($id): bool
+    {
+        $category = ProductCategory::find($id);
+        return $category ? $category->products()->exists() : false;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATABASE TRANSACTION
+    |--------------------------------------------------------------------------
+    */
     public function getData()
     {
         try {
             $query = ProductCategory::query()
-                ->withCount('products')
-                ->with([
-                    'business' => fn($q) => $q->select('id', 'name'),
-                ]);
+                ->with(['parent', 'children'])
+                ->withCount('products');
 
+            // Handle request untuk satu kategori by ID
             if (isset($this->payload['id'])) {
-                $data = $query->find($this->payload['id']);
-                return (object)['status' => !is_null($data), 'data' => $data ? $data->toArray() : null];
+                $category = $query->find($this->payload['id']);
+                return (object) [
+                    'status' => !is_null($category),
+                    'data' => $category ? $category->toArray() : null,
+                    'message' => $category ? 'Data found' : 'Category not found'
+                ];
             }
-            if (isset($this->payload['business_id'])) {
-                $query->where('business_id', $this->payload['business_id']);
-            }
+
+            // --- PERBAIKAN DI SINI ---
+            // Menambahkan logika filter berdasarkan keyword dari payload
             if (isset($this->payload['keyword'])) {
-                $query->where('name', 'LIKE', "%{$this->payload['keyword']}%");
+                $keyword = $this->payload['keyword'];
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%{$keyword}%")
+                        ->orWhere('description', 'LIKE', "%{$keyword}%");
+                });
             }
-            $perPage = $this->payload['per_page'] ?? 15;
-            $data = $query->paginate($perPage);
-            return (object)['status' => true, 'data' => $data->toArray()];
+
+            $categories = $query->paginate(15);
+
+            return (object) ['status' => true, 'data' => $categories->toArray()];
         } catch (Exception $e) {
-            return (object)['status' => false, 'message' => $e->getMessage()];
+            return (object) ['status' => false, 'message' => $e->getMessage()];
         }
     }
+
 
     public function insertData()
     {
         try {
-            return DB::transaction(function () {
-                $category = ProductCategory::create($this->payload);
-                if (!$category) {
-                    throw new Exception("Failed to create product category.");
-                }
-                return (object)['status' => true, 'data' => (object)['id' => $category->id]];
-            });
+            $category = ProductCategory::create(Arr::only($this->payload, [
+                'name',
+                'slug',
+                'description',
+                'parent_id'
+            ]));
+
+            return (object) ['status' => true, 'data' => $category->toArray()];
         } catch (Exception $e) {
-            return (object)['status' => false, 'message' => $e->getMessage()];
+            return (object) ['status' => false, 'message' => $e->getMessage()];
         }
     }
 
     public function updateData()
     {
         try {
-            $category = ProductCategory::findOrFail($this->payload['id']);
-            $dbPayload = Arr::except($this->payload, ['id']);
-            return DB::transaction(function () use ($category, $dbPayload) {
-                $category->update($dbPayload);
-                return (object)['status' => true];
-            });
+            $category = ProductCategory::find($this->payload['id']);
+            $category->update(Arr::only($this->payload, [
+                'name',
+                'slug',
+                'description',
+                'parent_id'
+            ]));
+
+            return (object) ['status' => true, 'data' => $category->toArray()];
         } catch (Exception $e) {
-            return (object)['status' => false, 'message' => $e->getMessage()];
+            return (object) ['status' => false, 'message' => $e->getMessage()];
         }
     }
 
     public function deleteData()
     {
         try {
-            $category = ProductCategory::findOrFail($this->payload['id']);
+            $category = ProductCategory::find($this->payload['id']);
             $category->delete();
-            return (object)['status' => true];
+
+            return (object) ['status' => true];
         } catch (Exception $e) {
-            return (object)['status' => false, 'message' => $e->getMessage()];
+            return (object) ['status' => false, 'message' => $e->getMessage()];
         }
-    }
-
-    public static function isNameUniqueInBusiness(string $name, int $businessId): bool
-    {
-        return !ProductCategory::where('name', $name)->where('business_id', $businessId)->exists();
-    }
-
-    public static function isNameUniqueOnUpdate(string $name, int $businessId, int $ignoreId): bool
-    {
-        return !ProductCategory::where('name', $name)->where('business_id', $businessId)->where('id', '!=', $ignoreId)->exists();
-    }
-
-    public static function findBusinessId(int $categoryId): ?int
-    {
-        return ProductCategory::find($categoryId)?->business_id;
     }
 }

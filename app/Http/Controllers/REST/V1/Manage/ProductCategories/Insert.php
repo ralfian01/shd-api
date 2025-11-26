@@ -4,47 +4,68 @@ namespace App\Http\Controllers\REST\V1\Manage\ProductCategories;
 
 use App\Http\Controllers\REST\BaseREST;
 use App\Http\Controllers\REST\Errors;
-use App\Http\Controllers\REST\V1\Manage\ProductCategories\DBRepo;
 
 class Insert extends BaseREST
 {
-    public function __construct(
-        ?array $payload = [],
-        ?array $file = [],
-        ?array $auth = []
-    ) {
-        $this->payload = $payload;
-        $this->file = $file;
-        $this->auth = $auth;
-        return $this;
+    /**
+     * Konstruktor standar sesuai template.
+     */
+    public function __construct(array $payload = [], ?array $file = [], ?array $auth = [])
+    {
+        parent::__construct($payload, $file, $auth);
     }
 
+    /**
+     * Aturan validasi untuk data yang masuk.
+     * @var array
+     */
     protected $payloadRules = [
-        'business_id' => 'required|integer|exists:business,id',
-        'name' => 'required|string|max:100',
+        'name' => 'required|string|max:255|unique:product_categories,name',
+        'slug' => 'required|string|max:255|unique:product_categories,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+        'description' => 'nullable|string',
+        'parent_id' => 'nullable|integer|exists:product_categories,id' // Validasi 'exists' memastikan parent_id valid
     ];
 
-    protected $privilegeRules = [];
+    /**
+     * Properti untuk aturan hak akses (privilege).
+     * @var array
+     */
+    protected $privilegeRules = [
+        // Contoh: 'CREATE_PRODUCT_CATEGORY'
+    ];
+
+    /**
+     * Metode utama yang memulai aktivitas.
+     * @return \Illuminate\Http\JsonResponse
+     */
     protected function mainActivity()
     {
         return $this->nextValidation();
     }
 
+    /**
+     * Menangani langkah validasi bisnis selanjutnya.
+     * Dalam kasus ini, tidak ada validasi tambahan yang diperlukan karena
+     * aturan 'exists' sudah menangani validitas parent_id.
+     */
     private function nextValidation()
     {
-        if (!DBRepo::isNameUniqueInBusiness($this->payload['name'], $this->payload['business_id'])) {
-            return $this->error((new Errors)->setMessage(409, 'The category name has already been taken for this business.'));
-        }
         return $this->insert();
     }
 
+    /**
+     * Function executor untuk menyisipkan data.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function insert()
     {
         $dbRepo = new DBRepo($this->payload, $this->file, $this->auth);
-        $insert = $dbRepo->insertData();
-        if ($insert->status) {
-            return $this->respond(201, ['id' => $insert->data->id]);
+        $result = $dbRepo->insertData();
+
+        if ($result->status) {
+            return $this->respond(201, $result->data); // 201 Created
         }
-        return $this->error(500, ['reason' => $insert->message]);
+
+        return $this->error(500, ['reason' => $result->message]);
     }
 }
