@@ -27,6 +27,8 @@ Route::prefix('warranty-check')->group(function () {
 ## Manage
 Route::prefix('manage')->group(function () {
 
+    Route::get('/summary', [RESTV1\Manage\Summary\Get::class, 'index']);
+
     Route::prefix('accounts')->group(function () {
         Route::get('/', [RESTV1\Manage\Accounts\Get::class, 'index']);
         Route::get('{id}', [RESTV1\Manage\Accounts\Get::class, 'index']);
