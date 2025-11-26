@@ -16,7 +16,6 @@ Route::prefix('sales')->group(function () {
     Route::get('/', [RESTV1\Sales\Get::class, 'index']);
     Route::get('{id}', [RESTV1\Sales\Get::class, 'index']);
     Route::post('/', [RESTV1\Sales\Insert::class, 'index']);
-    Route::put('{id}', [RESTV1\Sales\Update::class, 'index']);
 });
 
 Route::prefix('warranty-check')->group(function () {

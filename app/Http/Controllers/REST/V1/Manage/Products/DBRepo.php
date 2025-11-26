@@ -156,17 +156,29 @@ class DBRepo extends BaseDBRepo
     public function updateData()
     {
         try {
+            // DB::transaction akan secara otomatis melakukan commit jika berhasil,
+            // atau rollback jika terjadi Exception.
             return DB::transaction(function () {
+                // Langkah 1: Temukan produk yang akan diupdate.
                 $product = Product::find($this->payload['id']);
 
-                // 1. Update data produk utama jika ada
-                $product->update(Arr::only($this->payload, ['name', 'brand', 'description', 'category_id', 'tags']));
+                // Langkah 2: Update detail inti produk.
+                // Menggunakan Arr::only untuk keamanan, hanya memperbarui field yang diizinkan.
+                $product->update(Arr::only($this->payload, [
+                    'name',
+                    'brand',
+                    'description',
+                    'category_id',
+                    'tags'
+                ]));
 
-                // 2. Jika ada data varian, hapus varian lama dan buat yang baru
-                // Ini adalah pendekatan yang paling sederhana dan aman untuk API
+                // Langkah 3: Update varian produk dengan pendekatan "delete-then-create".
+                // Ini adalah cara paling sederhana dan aman untuk API.
                 if (isset($this->payload['variants'])) {
-                    $product->variants()->delete(); // Hapus semua varian yang ada
+                    // Hapus semua varian lama yang terkait dengan produk ini.
+                    $product->variants()->delete();
 
+                    // Buat ulang varian dari data payload yang baru.
                     foreach ($this->payload['variants'] as $variant) {
                         $product->variants()->create([
                             'sku' => $variant['sku'],
@@ -176,23 +188,56 @@ class DBRepo extends BaseDBRepo
                     }
                 }
 
+                // Langkah 4: Kelola gambar produk.
+
+                // 4a. Hapus gambar yang diminta untuk dihapus.
+                if (isset($this->payload['deleted_image_ids'])) {
+                    $imagesToDelete = ProductImage::whereIn('id', $this->payload['deleted_image_ids'])
+                        ->where('product_id', $product->id) // Keamanan ekstra
+                        ->get();
+
+                    foreach ($imagesToDelete as $image) {
+                        // Hapus file fisik dari storage.
+                        Storage::disk('public')->delete($image->path);
+                        // Hapus record dari database.
+                        $image->delete();
+                    }
+                }
+
+                // 4b. Tambahkan gambar baru yang di-upload.
                 if (isset($this->file['new_images'])) {
                     foreach ($this->file['new_images'] as $imageFile) {
-                        // Ganti panggilan ->store() dengan helper method manual kita
+                        // Gunakan helper manual untuk menangani objek file Symfony.
                         $path = $this->handleFileUpload($imageFile, 'products');
                         $product->images()->create(['path' => $path]);
                     }
                 }
 
+                // 4c. Atur gambar cover baru jika diminta.
+                if (isset($this->payload['cover_image_id'])) {
+                    // Reset semua gambar untuk produk ini agar tidak menjadi cover.
+                    $product->images()->update(['is_cover' => false]);
+                    // Set satu gambar spesifik sebagai cover baru.
+                    ProductImage::where('id', $this->payload['cover_image_id'])
+                        ->where('product_id', $product->id) // Keamanan ekstra
+                        ->update(['is_cover' => true]);
+                }
+
+                // Langkah 5: Muat ulang relasi yang mungkin telah berubah
+                // untuk memastikan response API berisi data terbaru.
                 return (object) [
                     'status' => true,
                     'data' => ['id' => $product->id]
                 ];
             });
         } catch (Exception $e) {
-            return (object) ['status' => false, 'message' => $e->getMessage()];
+            return (object) [
+                'status' => false,
+                'message' => $e->getMessage()
+            ];
         }
     }
+}
 
     /**
      * Function to delete data from database
