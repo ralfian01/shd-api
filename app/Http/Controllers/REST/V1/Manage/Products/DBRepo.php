@@ -237,7 +237,7 @@ class DBRepo extends BaseDBRepo
             ];
         }
     }
-}
+
 
     /**
      * Function to delete data from database
