@@ -10,9 +10,12 @@ class Delete extends BaseREST
     /**
      * Konstruktor standar sesuai template.
      */
-    public function __construct(array $payload = [], ?array $file = [], ?array $auth = [])
+    public function __construct(?array $p = [], ?array $f = [], ?array $a = [])
     {
-        parent::__construct($payload, $file, $auth);
+        $this->payload = $p;
+        $this->file = $f;
+        $this->auth = $a;
+        return $this;
     }
 
     /**
