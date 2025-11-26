@@ -19,6 +19,7 @@ class Warranty extends Model
     protected $casts = [
         // --- TAMBAHAN DI SINI ---
         'voided_at' => 'datetime',
+        'expires_at' => 'datetime',
     ];
 
     public function sale()

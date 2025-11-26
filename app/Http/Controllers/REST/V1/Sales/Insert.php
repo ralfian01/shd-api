@@ -31,7 +31,8 @@ class Insert extends BaseREST
         'buyer_name' => 'required|string|max:255',
         'buyer_address' => 'required|string',
         'buyer_phone' => 'required|string|max:20',
-        'serial_number' => 'nullable|string|max:255|unique:sales,serial_number',
+        'serial_numbers' => 'nullable|array',
+        'serial_numbers.*' => 'required|string|max:255|unique:warranties,serial_number'
     ];
 
     /**

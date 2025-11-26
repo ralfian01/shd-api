@@ -4,10 +4,12 @@ namespace App\Http\Controllers\REST\V1\Sales;
 
 use App\Http\Libraries\BaseDBRepo;
 use App\Models\Sale;
+use App\Models\Variant;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str; // Diperlukan untuk generate string acak
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class DBRepo extends BaseDBRepo
 {
@@ -109,48 +111,45 @@ class DBRepo extends BaseDBRepo
     public function insertData()
     {
         try {
-            // DB::transaction memastikan bahwa jika salah satu query gagal (misal, pembuatan garansi),
-            // maka query pembuatan penjualan juga akan dibatalkan (rollback).
-            $saleData = DB::transaction(function () {
-                // 1. Buat data penjualan dari payload
-                $sale = Sale::create(Arr::only($this->payload, [
-                    'variant_id',
-                    'invoice_code',
-                    'quantity',
-                    'unit_price',
-                    'purchase_date',
-                    'buyer_name',
-                    'buyer_address',
-                    'buyer_phone',
-                    'serial_number'
-                ]));
+            return DB::transaction(function () {
+                // 1. Ambil data produk terkait untuk mendapatkan durasi garansi
+                $variant = Variant::with('product')->find($this->payload['variant_id']);
+                $durationMonths = $variant->product->warranty_duration_months;
 
-                // 2. Generate data untuk garansi secara otomatis
-                $warrantyCardNumber = 'GAR-' . date('Ymd') . '-' . Str::upper(Str::random(6));
-                $expressServiceCode = 'EXP-' . Str::upper(Str::random(8));
+                // 2. Parse tanggal pembelian menggunakan Carbon
+                $purchaseDate = Carbon::parse($this->payload['purchase_date']);
 
-                // 3. Buat data garansi yang terhubung langsung dengan penjualan yang baru dibuat
-                $sale->warranty()->create([
-                    'card_number' => $warrantyCardNumber,
-                    'express_service_code' => $expressServiceCode,
-                    'service_tag' => 'STANDARD' // Contoh nilai default
-                ]);
+                // 3. Hitung tanggal kedaluwarsa garansi
+                $expiresAt = $purchaseDate->copy()->addMonths($durationMonths);
 
-                // 4. Muat ulang relasi garansi untuk disertakan dalam response
-                return $sale->load('warranty');
+                // 4. Buat record penjualan
+                $sale = Sale::create(Arr::except($this->payload, ['serial_numbers']));
+
+                // 5. Lakukan loop sebanyak kuantitas untuk membuat garansi
+                for ($i = 0; $i < $this->payload['quantity']; $i++) {
+                    // ... (logika generate nomor kartu dan serial number tetap sama)
+                    $warrantyCardNumber = 'GAR-' . date('Ymd') . '-' . Str::upper(Str::random(6)) . '-' . ($i + 1);
+                    $serialNumber = $this->payload['serial_numbers'][$i] ?? null;
+
+                    // 6. Buat record garansi dengan menyertakan 'expires_at'
+                    $sale->warranties()->create([
+                        'serial_number' => $serialNumber,
+                        'card_number' => $warrantyCardNumber,
+                        'express_service_code' => 'EXP-' . Str::upper(Str::random(8)),
+                        'service_tag' => 'STANDARD',
+                        'expires_at' => $expiresAt
+                    ]);
+                }
+
+                return (object) [
+                    'status' => true,
+                    'data' => $sale->id
+                ];
             });
-
-            return (object) [
-                'status' => true,
-                'data' => $saleData->toArray(),
-            ];
-        } catch (Exception $e) {
-            return (object) [
-                'status' => false,
-                'message' => $e->getMessage()
-            ];
+        } catch (Exception $e) { /* ... */
         }
     }
+
 
     /**
      * --- METHOD BARU ---

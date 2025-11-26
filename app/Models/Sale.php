@@ -15,8 +15,8 @@ class Sale extends Model
         return $this->belongsTo(Variant::class);
     }
 
-    public function warranty()
+    public function warranties()
     {
-        return $this->hasOne(Warranty::class);
+        return $this->hasMany(Warranty::class);
     }
 }

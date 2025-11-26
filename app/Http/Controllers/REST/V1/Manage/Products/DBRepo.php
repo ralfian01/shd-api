@@ -114,6 +114,7 @@ class DBRepo extends BaseDBRepo
                     'description' => $this->payload['description'] ?? null,
                     'category_id' => $this->payload['category_id'],
                     'tags' => $this->payload['tags'] ?? null,
+                    'warranty_duration_months' => $this->payload['warranty_duration_months'],
                 ]);
 
                 // 2. Loop dan buat varian produk
@@ -169,7 +170,8 @@ class DBRepo extends BaseDBRepo
                     'brand',
                     'description',
                     'category_id',
-                    'tags'
+                    'tags',
+                    'warranty_duration_months'
                 ]));
 
                 // Langkah 3: Update varian produk dengan pendekatan "delete-then-create".

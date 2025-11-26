@@ -43,9 +43,7 @@ class DBRepo extends BaseDBRepo
                 // Kondisi 1: Cari di kolom 'card_number' di tabel 'warranties'
                 ->where('card_number', $code)
                 // Kondisi 2 (ATAU): Cari di kolom 'serial_number' di tabel relasi 'sale'
-                ->orWhereHas('sale', function ($query) use ($code) {
-                    $query->where('serial_number', $code);
-                })
+                ->orWhere('serial_number', $code)
                 // Ambil hasil pertama yang cocok
                 ->first();
 

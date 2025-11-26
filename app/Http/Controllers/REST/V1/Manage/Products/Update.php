@@ -32,6 +32,7 @@ class Update extends BaseREST
         'description' => 'sometimes|nullable|string',
         'category_id' => 'sometimes|required|integer|exists:product_categories,id',
         'tags' => 'sometimes|nullable|array',
+        'warranty_duration_months' => 'sometimes|required|integer|min:0',
 
         // Aturan untuk array variants (tanpa SKU)
         'variants' => 'sometimes|array',

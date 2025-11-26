@@ -25,6 +25,7 @@ class Insert extends BaseREST
         'category_id' => 'required|integer',
         'tags' => 'nullable|array',
         'variants' => 'required|array|min:1',
+        'warranty_duration_months' => 'required|integer|min:0',
         // Validasi untuk setiap item di dalam array variants
         'variants.*.sku' => 'required|string|unique:variants,sku',
         'variants.*.price' => 'required|numeric|min:0',
