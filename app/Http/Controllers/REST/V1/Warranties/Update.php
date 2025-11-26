@@ -24,6 +24,7 @@ class Update extends BaseREST
      */
     protected $payloadRules = [
         'service_tag' => 'sometimes|required|string|max:100',
+        'voided_at' => 'sometimes|nullable|date_format:Y-m-d H:i:s',
     ];
 
     protected $privilegeRules = [

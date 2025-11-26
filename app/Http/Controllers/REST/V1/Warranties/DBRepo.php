@@ -51,7 +51,7 @@ class DBRepo extends BaseDBRepo
                 // Secara eksplisit HANYA mengambil 'service_tag' dari payload.
                 // Ini adalah gerbang keamanan yang mencegah field lain (seperti card_number)
                 // agar tidak ter-update, bahkan jika client mengirimkannya.
-                $allowedFields = Arr::only($this->payload, ['service_tag']);
+                $allowedFields = Arr::only($this->payload, ['service_tag', 'voided_at']);
 
                 // Lakukan update hanya jika ada data yang diizinkan untuk diubah.
                 if (!empty($allowedFields)) {
