@@ -53,7 +53,11 @@ class DBRepo extends BaseDBRepo
         try {
             $query = Product::query()
                 // Eager loading untuk mengambil semua data relasi dalam satu query
-                ->with(['variants.sales.warranty']);
+                ->with([
+                    'variants',
+                    'images',
+                    'category'
+                ]);
 
             // Filter by ID (untuk endpoint /manage/products/{id})
             if (isset($this->payload['id'])) {
