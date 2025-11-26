@@ -206,7 +206,7 @@ class DBRepo extends BaseDBRepo
 
                 // 4b. Tambahkan gambar baru yang di-upload.
                 if (isset($this->file['new_images'])) {
-                    foreach ($this->file['new_images'] as $imageFile) {
+                    foreach ($this->file['new_images'] as $index => $imageFile) {
                         // Gunakan helper manual untuk menangani objek file Symfony.
                         $path = $this->handleFileUpload($imageFile, 'products');
                         $product->images()->create(['path' => $path]);
