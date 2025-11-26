@@ -1,0 +1,87 @@
+business_id,account_code,account_name,account_type,normal_balance,cash_flow_activity,is_active
+6,1,Aset,ASSET,DEBIT,NULL,1
+6,1.1,Aset Lancar,ASSET,DEBIT,NULL,1
+6,1.1.1,Kas,ASSET,DEBIT,NULL,1
+6,1.1.2,Bank,ASSET,DEBIT,NULL,1
+6,1.1.3,Piutang Usaha,ASSET,DEBIT,OPERATING,1
+6,1.1.4,Piutang Simpan Pinjam - Anggota,ASSET,DEBIT,OPERATING,1
+6,1.1.5,Persediaan ,ASSET,DEBIT,OPERATING,1
+6,1.1.6,Beban Dibayar Dimuka,ASSET,DEBIT,OPERATING,1
+6,1.2,Aset Tetap,ASSET,DEBIT,OPERATING,1
+6,1.2.1,Tanah ,ASSET,DEBIT,INVESTING,1
+6,1.2.2,Gedung,ASSET,DEBIT,INVESTING,1
+6,1.2.3,Peralatan ,ASSET,DEBIT,INVESTING,1
+6,1.2.4,Kendaraan ,ASSET,DEBIT,INVESTING,1
+6,1.2.5,Peralatan - Inventaris Kantor,ASSET,DEBIT,INVESTING,1
+6,1.2.6,Akumulasi Penyusutan - Gedung,ASSET,CREDIT,NULL,1
+6,1.2.7,Akumulasi Penyusutan - Peralatan,ASSET,CREDIT,NULL,1
+6,1.2.8,Akumulasi Penyusutan - Kendaraan,ASSET,CREDIT,NULL,1
+6,1.2.9,Akumulasi Penyusutan - Inventaris,ASSET,CREDIT,NULL,1
+6,1.3,Investasi,ASSET,DEBIT,INVESTING,1
+6,1.3.1,Investasi Jangka Panjang,ASSET,DEBIT,INVESTING,1
+6,2,Kewajiban (Liabilities),LIABILITY,CREDIT,NULL,1
+6,2.1,Kewajiban Jangka Pendek,LIABILITY,CREDIT,NULL,1
+6,2.1.1,Pendapatan Diterima Dimuka - Sewa,LIABILITY,CREDIT,OPERATING,1
+6,2.1.2,Utang Usaha,LIABILITY,CREDIT,OPERATING,1
+6,2.1.3,Utang Gaji & Tunjangan,LIABILITY,CREDIT,OPERATING,1
+6,2.1.4,Utang Bunga,LIABILITY,CREDIT,OPERATING,1
+6,2.1.5,Pendapatan Diterima Dimuka ,LIABILITY,CREDIT,OPERATING,1
+6,2.1.6,Pinjaman Bank Jangka Panjang,LIABILITY,CREDIT,FINANCING,1
+6,2.2,Pajak,LIABILITY,CREDIT,NULL,1
+6,2.2.1,Utang PPh 21,LIABILITY,CREDIT,OPERATING,1
+6,2.2.2,Utang PPh Badan,LIABILITY,CREDIT,OPERATING,1
+6,2.2.3,Utang PPN Keluaran,LIABILITY,CREDIT,OPERATING,1
+6,2.2.4,Utang PPN Masukan,LIABILITY,CREDIT,OPERATING,1
+6,3,Ekuitas,EQUITY,CREDIT,NULL,1
+6,3.1,Modal Anggota,EQUITY,CREDIT,NULL,1
+6,3.1.1,Simpanan Pokok,EQUITY,CREDIT,FINANCING,1
+6,3.1.2,Simpanan Wajib,EQUITY,CREDIT,FINANCING,1
+6,3.1.3,Simpanan Sukarela,EQUITY,CREDIT,FINANCING,1
+6,3.2,Cadangan,EQUITY,CREDIT,NULL,1
+6,3.2.1,Dana Cadangan,EQUITY,CREDIT,NULL,1
+6,3.3,Laba/Rugi,EQUITY,CREDIT,NULL,1
+6,3.3.1,SHU Tahun Lalu,EQUITY,CREDIT,NULL,1
+6,3.3.2,SHU Berjalan,EQUITY,CREDIT,NULL,1
+6,4,Pendapatan,REVENUE,CREDIT,NULL,1
+6,4.1,Pendapatan Sewa Gedung,REVENUE,CREDIT,NULL,1
+6,4.1.1,Pendapatan Sewa Gedung,REVENUE,CREDIT,NULL,1
+6,4.2,Pendapatan Sewa Gudang,REVENUE,CREDIT,NULL,1
+6,4.2.1,Pendapatan Sewa Gudang,REVENUE,CREDIT,NULL,1
+6,4.3,Pendapatan Golf,REVENUE,CREDIT,NULL,1
+6,4.3.1,Pendapatan Golf - Green Fee,REVENUE,CREDIT,NULL,1
+6,4.3.2,Pendapatan Golf - Driving Range,REVENUE,CREDIT,NULL,1
+6,4.4,Pendapatan USP,REVENUE,CREDIT,NULL,1
+6,4.4.1,Pendapatan Jasa USP ,REVENUE,CREDIT,NULL,1
+6,4.5,Pendapatan Lain-lain,REVENUE,CREDIT,NULL,1
+6,4.5.1,Pendapatan Bunga Bank,REVENUE,CREDIT,NULL,1
+6,4.5.2,Pendapatan Lain-lain ,REVENUE,CREDIT,NULL,1
+6,5,Beban,EXPENSE,DEBIT,NULL,1
+6,5.1,Beban Umum,EXPENSE,DEBIT,NULL,1
+6,5.1.1,Beban Gaji dan Upah,EXPENSE,DEBIT,NULL,1
+6,5.1.2,Beban Tunjangan & Kesejahteraan,EXPENSE,DEBIT,NULL,1
+6,5.2,Beban Operasional,EXPENSE,DEBIT,NULL,1
+6,5.2.1,Beban Utilitas,EXPENSE,DEBIT,NULL,1
+6,5.2.2,Beban Perawatan Gedung,EXPENSE,DEBIT,NULL,1
+6,5.2.3,Beban Kebersihan & Keamanan,EXPENSE,DEBIT,NULL,1
+6,5.2.4,Beban Perbaikan & Pemeliharaan - Gedung,EXPENSE,DEBIT,NULL,1
+6,5.2.5,Beban Konsultan & Profesional,EXPENSE,DEBIT,NULL,1
+6,5.2.6,Beban Pelatihan & Pengembangan SDM,EXPENSE,DEBIT,NULL,1
+6,5.3,Beban Operasional Golf,EXPENSE,DEBIT,NULL,1
+6,5.3.1,Beban Pemeliharaan Lapangan Golf,EXPENSE,DEBIT,NULL,1
+6,5.4,Beban Kantor,EXPENSE,DEBIT,NULL,1
+6,5.4.1,Beban ATK & Kantor,EXPENSE,DEBIT,NULL,1
+6,5.4.2,Beban Transportasi,EXPENSE,DEBIT,NULL,1
+6,5.5,Beban Pemasaran,EXPENSE,DEBIT,NULL,1
+6,5.5.1,Beban Promosi & Pemasaran,EXPENSE,DEBIT,NULL,1
+6,5.6,Penyusutan,EXPENSE,DEBIT,NULL,1
+6,5.6.1,Beban Penyusutan - Gedung,EXPENSE,DEBIT,NULL,1
+6,5.6.2,Beban Penyusutan - Peralatan,EXPENSE,DEBIT,NULL,1
+6,5.6.3,Beban Penyusutan - Kendaraan,EXPENSE,DEBIT,NULL,1
+6,5.7,Beban Keuangan,EXPENSE,DEBIT,NULL,1
+6,5.7.1,Beban Bunga Bank,EXPENSE,DEBIT,NULL,1
+6,5.8.1,Beban USP,EXPENSE,DEBIT,NULL,1
+6,5.8.2,Beban Bunga Simpanan,EXPENSE,DEBIT,NULL,1
+6,5.9,Pajak,EXPENSE,DEBIT,NULL,1
+6,5.9.1,Beban Pajak & Retribusi,EXPENSE,DEBIT,NULL,1
+6,5.1,Beban Lain-lain,EXPENSE,DEBIT,NULL,1
+6,5.10.1,Beban Lain-lain,EXPENSE,DEBIT,NULL,1

@@ -1,0 +1,102 @@
+business_id,account_code_before,account_code_after,account_name,account_chart_category_id
+6,1,1..0,,7
+6,1.1,1..1,,4
+6,1.1.1,1-001,Kas,1
+6,1.1.2,1-002,Bank,1
+6,1.1.3,1-003,Piutang Usaha,2
+6,1.1.4,1-004,Piutang Simpan Pinjam - Anggota,2
+6,1.1.5,1-005,Persediaan ,3
+6,1.1.6,1-006,Beban Dibayar Dimuka,4
+6,1.2,1..2,,5
+6,1.2.1,1-007,Tanah ,5
+6,1.2.2,1-008,Gedung,5
+6,1.2.3,1-009,Peralatan ,5
+6,1.2.4,1-010,Kendaraan ,5
+6,1.2.5,1-011,Peralatan - Inventaris Kantor,5
+6,1.2.6,1-012,Akumulasi Penyusutan - Gedung,6
+6,1.2.7,1-013,Akumulasi Penyusutan - Peralatan,6
+6,1.2.8,1-014,Akumulasi Penyusutan - Kendaraan,6
+6,1.2.9,1-015,Akumulasi Penyusutan - Inventaris,6
+6,1.3,1..3,,7
+6,1.3.1,1-016,Investasi Jangka Panjang,7
+6,2,2..0,,10
+6,2.1,2..1,,10
+6,2.1.1,2-001,Pendapatan Diterima Dimuka - Sewa,10
+6,2.1.2,2-002,Utang Usaha,8
+6,2.1.3,2-003,Utang Gaji & Tunjangan,10
+6,2.1.4,2-004,Utang Bunga,10
+6,2.1.5,2-005,Pendapatan Diterima Dimuka ,10
+6,2.1.6,2-006,Pinjaman Bank Jangka Panjang,11
+6,2.2,2..2,,10
+6,2.2.1,2-007,Utang PPh 21,10
+6,2.2.2,2-008,Utang PPh Badan,10
+6,2.2.3,2-009,Utang PPN Keluaran,10
+6,2.2.4,2-010,Utang PPN Masukan,4
+6,3,3..0,,12
+6,3.1,3..1,,12
+6,3.1.1,3-001,Simpanan Pokok,12
+6,3.1.2,3-002,Simpanan Wajib,12
+6,3.1.3,3-003,Simpanan Sukarela,12
+6,3.2,3..2,,12
+6,3.2.1,3-004,Dana Cadangan,12
+6,3.3,3..3,,12
+6,3.3.1,3-005,SHU Tahun Lalu,12
+6,3.3.2,3-006,SHU Berjalan,12
+6,4,4..0,,13
+6,4.1,4..1,,9
+6,4.1.1,4-001,Pendapatan Sewa Gedung,13
+6,4.2,4..2,,9
+6,4.2.1,4-002,Pendapatan Sewa Gudang,13
+6,4.3,4..3,,9
+6,4.3.1,4-003,Pendapatan Golf - Green Fee,13
+6,4.3.2,4-004,Pendapatan Golf - Driving Range,13
+6,4.4,4..4,,9
+6,4.4.1,4-005,Pendapatan Jasa USP ,13
+6,4.5,4..5,,9
+6,4.5.1,4-006,Pendapatan Bunga Bank,16
+6,4.5.2,4-007,Pendapatan Lain-lain ,16
+6,5,5..0,,15
+6,5.1,5..1,,9
+6,5.1.1,5-001,Beban Gaji dan Upah,15
+6,5.1.2,5-002,Beban Tunjangan & Kesejahteraan,15
+6,5.2,5..2,,9
+6,5.2.1,5-003,Beban Utilitas,15
+6,5.2.2,5-004,Beban Perawatan Gedung,15
+6,5.2.3,5-005,Beban Kebersihan & Keamanan,15
+6,5.2.4,5-006,Beban Perbaikan & Pemeliharaan - Gedung,15
+6,5.2.5,5-007,Beban Konsultan & Profesional,15
+6,5.2.6,5-008,Beban Pelatihan & Pengembangan SDM,15
+6,5.3,5..3,,9
+6,5.3.1,5-009,Beban Pemeliharaan Lapangan Golf,15
+6,5.4,5..4,,9
+6,5.4.1,5-010,Beban ATK & Kantor,15
+6,5.4.2,5-011,Beban Transportasi,15
+6,5.5,5..5,,9
+6,5.5.1,5-012,Beban Promosi & Pemasaran,15
+6,5.6,5..6,,9
+6,5.6.1,5-013,Beban Penyusutan - Gedung,15
+6,5.6.2,5-014,Beban Penyusutan - Peralatan,15
+6,5.6.3,5-015,Beban Penyusutan - Kendaraan,15
+6,5.7,5..7,,9
+6,5.7.1,5-016,Beban Bunga Bank,17
+6,5.8.1,5-017,Beban USP,15
+6,5.8.2,5-018,Beban Bunga Simpanan,17
+6,5.9,5..9,,9
+6,5.9.1,5-019,Beban Pajak & Retribusi,17
+6,5.1,5..10,,9
+6,5.10.1,5-020,Beban Lain-lain,17
+6,4.1.2,4-008,Pendapatan Catering,13
+6,4.1.3,4-009,Pendapatan Pantry,13
+6,4.1.4,4-010,Pendapatan Dekorasi,13
+6,4.1.5,4-011,Pendapatan Dokumentasi,13
+6,4.1.6,4-012,Pendapatan Musik,13
+6,4.1.7,4-013,Pendapatan LED,13
+6,4.1.8,4-014,Pendapatan Ligthting,13
+6,4.1.9,4-015,Pendapatan Genset,13
+6,4.1.10,4-016,Pendapatan Peralatan,13
+6,4.1.11,4-017,Pendapatan Akad Nikah,13
+6,4.1.12,4-018,Pendapatan Ruang VIP,13
+6,4.2.2,4-008,Pendapatan Sewa Kios,13
+6,3.1.4,3-007,Modal Balai Sudirman,12
+6,5.2.7,5-021,Beban Operasional Balai Sudirman,15
+6,4.1.13,4-018,Pendapatan Tambahan Waktu,13

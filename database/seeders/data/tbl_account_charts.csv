@@ -1,0 +1,51 @@
+business_id,parent_id,account_code,account_name,account_type,normal_balance,cash_flow_activity,is_active
+6,NULL,1,Aset (Asset),ASSET,DEBIT,NULL,1
+6,5,1.1,Aset Lancar (Current Assets),ASSET,DEBIT,NULL,1
+6,6,1.1.1,Kas dan Setara Kas,ASSET,DEBIT,NULL,1
+6,6,1.1.2,Piutang,ASSET,DEBIT,OPERATING,1
+6,5,1.2,Aset Tetap (Non-current Assets),ASSET,DEBIT,NULL,1
+6,6,1.1.3,Beban dibayar dimuka,ASSET,DEBIT,OPERATING,1
+6,9,1.2.1,Tanah,ASSET,DEBIT,INVESTING,1
+6,NULL,2,Kewajiban (Liabilities),LIABILITY,CREDIT,NULL,1
+6,12,2.1,Kewajiban Jangka Pendek,LIABILITY,CREDIT,NULL,1
+6,13,2.1.1,Utang usaha,LIABILITY,CREDIT,OPERATING,1
+6,12,2.2,Kewajiban jangka panjang,LIABILITY,CREDIT,NULL,1
+6,15,2.2.1,Utang bank jangka panjang,LIABILITY,CREDIT,FINANCING,1
+6,NULL,3,Ekuitas (Equity),EQUITY,CREDIT,NULL,1
+6,17,3.1,Simpanan Pokok,EQUITY,CREDIT,FINANCING,1
+6,17,3.2,Simpanan Wajib,EQUITY,CREDIT,FINANCING,1
+6,NULL,4,Pendapatan (Renevue),REVENUE,CREDIT,NULL,1
+6,20,4.1,Pendapatan sewa pengelolaan fasilitas olahraga,REVENUE,CREDIT,NULL,1
+6,NULL,5,Beban (expenses),EXPENSE,DEBIT,NULL,1
+6,22,5.1,Beban usaha,EXPENSE,DEBIT,NULL,1
+6,23,5.1.1,Beban administrasi umum,EXPENSE,DEBIT,NULL,1
+6,22,5.2,Beban perkoperasian,EXPENSE,DEBIT,NULL,1
+6,25,5.2.1,Beban pengurus koperasi,EXPENSE,DEBIT,NULL,1
+6,25,5.2.2,Beban rapat anggota,EXPENSE,DEBIT,NULL,1
+6,17,3.3,Simpanan sukarela,EQUITY,CREDIT,FINANCING,1
+6,17,3.4,Dana Cadangan,EQUITY,CREDIT,NULL,1
+6,17,3.5,Sisa Hasil Usaha (SHU) yang Belum Dibagi,EQUITY,CREDIT,NULL,1
+6,20,4.2,Pendapatan Sewa Gedung Pertemuan,REVENUE,CREDIT,NULL,1
+6,20,4.3,Pendapatan Sewa Gudang,REVENUE,CREDIT,NULL,1
+6,20,4.4,Pendapatan Sewa Kios,REVENUE,CREDIT,NULL,1
+6,9,1.2.2,Bangunan,ASSET,DEBIT,INVESTING,1
+6,9,1.2.3,Peralatan / Inventaris,ASSET,DEBIT,INVESTING,1
+6,9,1.2.4,Kendaraan,ASSET,DEBIT,INVESTING,1
+6,9,1.2.5,Akumulasi Penyusutan,ASSET,DEBIT,NULL,1
+6,13,2.1.2,Pendapatan Diterima di Muka,LIABILITY,CREDIT,OPERATING,1
+6,13,2.1.3,Utang Pajak,LIABILITY,CREDIT,OPERATING,1
+6,15,2.2.2,Utang Lain-lain,LIABILITY,CREDIT,FINANCING,1
+6,20,4.5,Pendapatan Dekorasi,REVENUE,CREDIT,NULL,1
+6,20,4.6,Pendapatan Foto dan Video,REVENUE,CREDIT,NULL,1
+6,20,4.7,Pendapatan Charge Musik,REVENUE,CREDIT,NULL,1
+6,20,4.8,Pendapatan Catering,REVENUE,CREDIT,NULL,1
+6,20,4.9,Pendapatan Bunga Bank,REVENUE,CREDIT,NULL,1
+6,20,4.1,Pendapatan Lain-lain,REVENUE,CREDIT,NULL,1
+6,23,5.1.2,Beban Pemeliharaan,EXPENSE,DEBIT,NULL,1
+6,23,5.1.3,Beban PNBP,EXPENSE,DEBIT,NULL,1
+6,23,5.1.4,Beban Gaji dan Upah,EXPENSE,DEBIT,NULL,1
+6,23,5.1.5,Beban Operasional,EXPENSE,DEBIT,NULL,1
+6,23,5.1.6,Beban Penyusutan Bangunan,EXPENSE,DEBIT,NULL,1
+6,23,5.1.7,Beban Penyusutan Peralatan/Inventaris Gedung,EXPENSE,DEBIT,NULL,1
+6,23,5.1.8,Beban Administrasi Bank,EXPENSE,DEBIT,NULL,1
+6,23,5.1.9,Beban Lain-lain,EXPENSE,DEBIT,NULL,1
