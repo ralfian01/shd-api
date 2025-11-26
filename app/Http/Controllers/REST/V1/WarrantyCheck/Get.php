@@ -62,7 +62,7 @@ class Get extends BaseREST
 
         // Kasus 1: Sukses dan data ditemukan
         if ($result->status && !is_null($result->data)) {
-            return $this->respond($result->data);
+            return $this->respond(200, $result->data);
         }
 
         // Kasus 2: Sukses tapi data tidak ditemukan (validasi gagal)
