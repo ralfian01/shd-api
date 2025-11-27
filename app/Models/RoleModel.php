@@ -17,6 +17,11 @@ class RoleModel extends Model
     protected $primaryKey = 'id';
     protected $table = 'role';
     protected $fillable = ['code', 'name'];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     /**
      * Privilege from relation between role, role__privilege, and privilege tables

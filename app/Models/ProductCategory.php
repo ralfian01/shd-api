@@ -10,6 +10,11 @@ class ProductCategory extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     /**
      * Mendapatkan semua produk dalam kategori ini.

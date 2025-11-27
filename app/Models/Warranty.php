@@ -21,6 +21,11 @@ class Warranty extends Model
         'voided_at' => 'datetime',
         'expires_at' => 'datetime',
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     public function sale()
     {

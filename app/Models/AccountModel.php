@@ -27,7 +27,9 @@ class AccountModel extends Model
         'status_delete',
     ];
     protected $hidden = [
-        'password'
+        'password',
+        'created_at',
+        'updated_at'
     ];
 
     /**
