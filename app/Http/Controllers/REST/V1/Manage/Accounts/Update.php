@@ -17,7 +17,7 @@ class Update extends BaseREST
     protected $payloadRules = [
         'id' => 'required|integer|exists:account,id',
         'username' => 'string|max:50',
-        'password' => 'nullable|string|min:8|confirmed',
+        'password' => 'nullable|string|min:6|confirmed',
         'role_ids' => 'array',
         'role_ids.*' => 'integer|exists:role,id',
         'deletable' => 'nullable|boolean',

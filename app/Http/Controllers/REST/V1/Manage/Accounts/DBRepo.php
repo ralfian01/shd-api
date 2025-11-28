@@ -17,7 +17,7 @@ class DBRepo extends BaseDBRepo
         try {
             $query = AccountModel::query()
                 ->with([
-                    'roles'
+                    'accountRole.rolePrivilege'
                 ]);
             if (isset($this->payload['id'])) {
                 $data = $query->find($this->payload['id']);
