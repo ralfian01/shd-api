@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\REST\V1\Manage\Products;
+namespace App\Http\Controllers\REST\V1\Sales;
 
 use App\Http\Controllers\REST\BaseREST;
 use App\Http\Controllers\REST\Errors;
@@ -26,7 +26,7 @@ class Delete extends BaseREST
     private function nextValidation()
     {
         // Pastikan produk yang akan dihapus ada
-        if (!DBRepo::checkProductExists($this->payload['id'])) {
+        if (!DBRepo::checkSaleExists($this->payload['id'])) {
             return $this->error(404, ['reason' => 'Product not found']);
         }
 

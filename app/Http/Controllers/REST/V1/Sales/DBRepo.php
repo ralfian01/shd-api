@@ -205,4 +205,21 @@ class DBRepo extends BaseDBRepo
             ];
         }
     }
+
+
+    /**
+     * Function to delete data from database
+     * @return object
+     */
+    public function deleteData()
+    {
+        try {
+            $product = Sale::find($this->payload['id']);
+            $product->delete(); // onDelete('cascade') akan menghapus varian dan relasi lainnya
+
+            return (object) ['status' => true];
+        } catch (Exception $e) {
+            return (object) ['status' => false, 'message' => $e->getMessage()];
+        }
+    }
 }
